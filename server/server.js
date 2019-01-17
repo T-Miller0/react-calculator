@@ -23,4 +23,26 @@ function requestHandler(request, response) {
       requestedResource += '/index.html';
     }
 
+    fs.readFile(
+      requestedResource,
+      "binary",
+      function(err, file) {
+      if (err) {
+        response.writeHead(500, {"Content-Type": "text/plain"});
+        response.write(err + "\n");
+        response.end();
+        return;
+      }
+
+      const contentTypesByExtension = {
+        '.html': "text/html",
+        '.css':  "text/css",
+        '.js':   "text/javascript"
+      };
+
+      const headers = {};
+      const contentType = contentTypesByExtension[
+        path.extname(requestedResource)
+      ];
+
 }
