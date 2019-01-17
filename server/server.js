@@ -45,4 +45,20 @@ function requestHandler(request, response) {
         path.extname(requestedResource)
       ];
 
+      if (contentType) {
+        headers["Content-Type"] = contentType;
+      }
+
+      response.writeHead(200, headers);
+      response.write(file, "binary");
+      response.end();
+    });
+
+  });
 }
+
+const server = http.createServer(requestHandler);
+const portNumber = 3030;
+server.listen(portNumber, function () {
+  console.log(`Server listening on port ${portNumber}`);
+});
