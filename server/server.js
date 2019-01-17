@@ -10,4 +10,17 @@ function requestHandler(request, response) {
     '../public',
     url.parse(request.url).pathname
   );
+
+  fs.exists(requestedResource, function(exists) {
+    if(!exists) {
+      response.writeHead(404, {"Content-Type": "text/plain"});
+      response.write("404 Not Found\n");
+      response.end();
+      return;
+    }
+
+    if (fs.statSync(requestedResource).isDirectory()) {
+      requestedResource += '/index.html';
+    }
+
 }
